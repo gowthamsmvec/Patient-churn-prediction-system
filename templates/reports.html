@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UI Design</title>
+    <link rel="stylesheet" href="assert/css/reports_style.css">
+</head>
+<body>
+    <!-- navigation bar -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="assert/img/logo.jpg" alt="Logo" style="height: 50px;">
+        </div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="reports.html">Report</a>
+            <!-- <a href="#">About</a>
+            <a href="#">Contact</a> -->
+        </div>
+        <div class="button-container">
+            <a href="dashboard.html">
+                <button>dashboard</button>
+            </a>
+        </div>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="searchBox" class="search-box" placeholder="Search by name">
+        <button class="search-button" onclick="performSearch()">Search</button>
+    </div>
+
+    <div class="form-box">
+        <div class="button-box">
+            <div id="btn"></div>
+            <button type="button" class="toggle-btn" onclick="setChurnFilter('1')">Churn</button>
+            <button type="button" class="toggle-btn" onclick="setChurnFilter('0')">No Churn</button>
+        </div>
+    </div>
+    
+    <div class="dynamic-container">
+        <!-- Table Container -->
+        <div class="table-container">
+            <table id="patientTable">
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Missed Appointments</th>
+                        <th>Cancellation</th>
+                        <th>Rescheduling</th>
+                        <th>Low Engagement</th>
+                        <th>Negative Feedbacks</th>
+                        <th>Distance from Hospital</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="patientTableBody">
+                    <!-- Dynamically render the rows using Jinja2 templating in Flask -->
+                    {% for record in records %}
+                    <tr>
+                        <td>{{ record['Patient Name'] }}</td>
+                        <td>{{ record.get('Missed_Appointments', '') }}</td>
+                        <td>{{ record.get('Cancellations', '') }}</td>
+                        <td>{{ record.get('Rescheduling', '') }}</td>
+                        <td>{{ 'Yes' if record.get('Patient_Engagement', '').lower() == 'low' else 'No' }}</td>
+                        <td>{{ 'Yes' if record.get('Feedback', '').lower() == 'negative' else 'No' }}</td>
+                        <td>{{ record.get('Distance_to_Facility', '') }}</td>
+                        <td>{{ 'Churn' if record['Churn'] == 1 else 'No Churn' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <script >
+        let churnFilter = '1'; // Default filter set to 'Churn'
+
+        // Function to set the churn filter
+        function setChurnFilter(value) {
+            churnFilter = value;
+            performSearch(); // Automatically search when toggling filter
+        }
+
+        // Function to perform the search
+        function performSearch() {
+            const searchQuery = document.getElementById('searchBox').value;
+
+            // Create the URL with query parameters
+            const url = `/search?search_query=${encodeURIComponent(searchQuery)}&churn=${churnFilter}`;
+
+            // Perform a GET request to the server
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    // Update the page content with the new HTML
+                    document.body.innerHTML = html;
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+    </script>
+</body>
+</html>

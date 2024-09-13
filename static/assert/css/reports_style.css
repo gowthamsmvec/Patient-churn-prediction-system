@@ -1,0 +1,183 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-image: url('../img/nav_bg.png');
+    background-size: cover;
+    background-position: center;
+    padding: 10px 20px;
+    height: 80px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    color: white;
+}
+
+.logo-container {
+    background-color: rgba(0, 132, 255, 0.8);
+    padding: 20px;
+    color: black;
+}
+
+.nav-links {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    margin-left: 600px;
+}
+
+.nav-links a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+}
+
+.button-container {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 120px;
+}
+
+.button-container button {
+    height: 50px;
+    width: 200px;
+    background-color: #008bff;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 20px;
+}
+
+.button-container button:hover {
+    background-color: #0077cc;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 150px;
+}
+
+.search-box {
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 20px 0 0 20px;
+    outline: none;
+    width: 600px;
+}
+
+.search-button {
+    padding: 10px 20px;
+    border: 2px solid #007bff;
+    background-color: #007bff;
+    color: white;
+    border-radius: 0 20px 20px 0;
+    cursor: pointer;
+    outline: none;
+    width: 100px;
+}
+
+.button-box {
+    width: 260px;
+    margin: 35px;
+    position: relative;
+    border-radius: 30px;
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+}
+
+.toggle-btn {
+    padding: 10px 40px;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    outline: none;
+    text-align: center;
+    z-index: 1;
+}
+
+#btn {
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 150px;
+    height: 100%;
+    background: #007bff;
+    border-radius: 30px;
+    transition: .5s;
+    z-index: 0;
+}
+
+.dynamic-container {
+    width: 1200px;
+    height: 550px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+/* Table Styling */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+}
+
+#patientTable {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#patientTable th, #patientTable td {
+    padding: 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+    width: 100px;
+}
+
+#patientTable th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+.churn-row {
+    background-color: #ffe5e5; /* Light red for churn */
+}
+
+.no-churn-row {
+    background-color: #e5ffe5; /* Light green for no churn */
+}
+
+#patientTable tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row colors */
+}
+
+#patientTable tr:hover {
+    background-color: #f1f1f1; /* Hover effect */
+}

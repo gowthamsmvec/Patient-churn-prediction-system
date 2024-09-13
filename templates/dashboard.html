@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Layout</title>
+    <link rel="stylesheet" href="assert/css/dashboard_style.css">
+</head>
+<body>
+
+    <div class="dashboard-heading-container">
+        <div class="button-container">
+            <a href="index.html">
+                <button>back</button>
+            </a>
+        </div>
+        <h1>DASHBOARD</h1>
+    </div>
+
+    <div class="sub-container">
+        <div>
+            <h1>Total no of patient</h1>
+            <h2>{{c+ n_c}}</h2>
+        </div>
+        <div>
+            <h1>No of Churn</h1>
+            <h2>{{c}}</h2>
+        </div>
+        <div>
+            <h1>No of No Churn</h1>
+            <h2>{{n_c}}</h2>
+        </div>
+    </div>
+
+    <div class="chart-wrapper">
+        <div class="chart-container">
+            <canvas id="myBarChart" width="400" height="400"></canvas>
+        </div>
+        <div class="chart-container">
+            <canvas id="myPieChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <!-- <table id="patientTable">
+        <thead>
+            <tr>
+                <th>Patient Name</th>
+                <th>Patient ID</th>
+                <th>Missed Appointments</th>
+                <th>Cancellation</th>
+                <th>Rescheduling</th>
+                <th>Low Engagement</th>
+                <th>Negative Feedbacks</th>
+                <th>Distance from Hospital</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+    <tbody>
+        
+    </tbody>
+    </table> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const conditions = {{ condition_names| tojson | safe}};  // List of conditions
+        const churnCounts = {{ churn_counts| tojson | safe }};  // Corresponding churn counts
+
+        const barCtx = document.getElementById('myBarChart').getContext('2d');
+
+        const myBarChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: conditions,  // Use conditions as labels
+                datasets: [{
+                    label: 'Churn Count by Condition',
+                    data: churnCounts,  // Use churn counts as data
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        const churnCount = {{c}};  // Number of patients with churn = 1
+        const notChurnCount = {{n_c}}; // Number of patients with churn = 0
+
+        const pieCtx = document.getElementById('myPieChart').getContext('2d');
+
+        const myPieChart = new Chart(pieCtx, {
+            type: 'pie',
+            data: {
+                labels: ['Churn', 'Not Churn'],
+                datasets: [{
+                    label: 'Churn Status',
+                    data: [churnCount, notChurnCount],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',  // Color for 'Churn'
+                        'rgba(54, 162, 235, 0.2)'   // Color for 'Not Churn'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',    // Border color for 'Churn'
+                        'rgba(54, 162, 235, 1)'     // Border color for 'Not Churn'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const label = tooltipItem.label;
+                                const value = tooltipItem.raw;
+                                return label + ': ' + value + ' patients';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        
+    </script>
+
+</body>
+</html>
